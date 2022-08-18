@@ -1,1 +1,1 @@
-start build/test.sln
+start ../.build/test.sln

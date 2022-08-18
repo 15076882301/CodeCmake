@@ -6,7 +6,7 @@ YYDS_BEGIN
 
 struct DataBase
 {
-	enum Status
+	enum class Status
 	{
 		Run = 0,
 		NO_CONNECT_NUMBER = -1,
@@ -19,8 +19,8 @@ struct DataBase
 	std::string user_name; // user name
 	std::string user_password; // user password
 	std::string data_base_name; // database name
-	uint64_t max_connext; // max connect
-	uint64_t current_connect;// current connect
+	uint64_t max_connext = 255; // max connect
+	uint64_t current_valubal_connect = 0;// current valubal connect
 	Status status; //connect status
 
 	friend stdos& operator <<(stdos& out, const DataBase& other)

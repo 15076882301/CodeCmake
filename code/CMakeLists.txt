@@ -10,7 +10,8 @@ ctl_cxx14()
 #设置包含的模块名称
 set(models_project
     models/math
-    models/redis
+    models/boost_thread
+	models/redis
     interface
 	test
 )

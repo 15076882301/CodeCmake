@@ -13,5 +13,13 @@
 									delete p;\
 									p = nullptr;\
 								}
+#define DELETE_PTR_EUQAL_NULLPTR(x) if((x) == nullptr)\
+									{\
+										return -1;\
+									}
 
+#define END_OF(x) /##/end of (x);
+
+#define FOR_BEGIN for(;;){
+#define FOR_END }
 #endif

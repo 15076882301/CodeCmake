@@ -4,7 +4,12 @@
 #include <boost/json.hpp>
 #include <boost/json/parse.hpp>
 #include <boost/filesystem/fstream.hpp> 
+#include <boost/thread.hpp>
+
 YYDS_BEGIN
+
+boost::condition_variable RedisClientStruct::condition_variable_commend;
+boost::mutex RedisClientStruct::lock_commend_quque;
 
 RedisClientPtr::~RedisClientPtr()
 {
@@ -53,4 +58,31 @@ int RedisClientPtr::preareJson(const std::string& fiiepath, std::string& out)
 
 	return 0;
 }
+
+int RedisClientPtr::prepareConnectQueue()
+{
+	using redis_client = cpp_redis::client;
+	DELETE_PTR_EUQAL_NULLPTR(m_data);
+	
+	for (uint64_t i = 0; i < m_data->data.max_connext; i++)
+	{
+		redis_client* client = new cpp_redis::client();
+		client->connect(
+			m_data->data.ip_port.ip,
+			m_data->data.ip_port.port,
+			[&](const std::string& ip, size_t port, cpp_redis::connect_state status)->void
+			{
+				if (cpp_redis::connect_state::ok == status)
+				{
+					m_data->queue_redis.push(client);
+					m_data->data.current_valubal_connect++;
+				}
+			}
+			);
+
+	};
+
+	return 0;
+}
+
 YYDS_END
